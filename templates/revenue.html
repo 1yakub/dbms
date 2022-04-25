@@ -38,52 +38,105 @@
 {%block content%} 
 {%endblock%}   
 <button type="button"><a href="/revenue">Revenue</a></button>
-<button type="button"><a href="/enrollment">Enrollment</a></button>
-<button type="button"><a href="/resources">Resources</a></button>
-<button type="button"><a href="/data_input">Get Enrollment</a></button>
-<button type="button"><a href="/course_infos">Course Infos</a></button>
-<button type="button"><a href="/classroom_req">Classroom req</a></button>
+    <button type="button"><a href="/data_input">Get Enrollment</a></button>
+    <button type="button"><a href="/resources">Resources</a></button>
+    <button type="button"><a href="/enrollment">Enrollment</a></button>
+    <button type="button"><a href="/classroom_req">Classroom req</a></button>
+    <button type="button"><a href="/course_infos">Course Infos</a></button>
 <form action="revenue" method="post">
   {% csrf_token %}
-  <select name="Semester" id="Semester">
-  {% for i in data2 %}
-      {% for j in i %}
-      <option value={{ j }}> {{ j }}</option> 
-      {% endfor %}
-  {% endfor %}
   </select>
-  <select name="Year" id="Year">
-  {% for i in data3 %}
+  <select name="School_ID" id="School_ID">
+  {% for i in school_id %}
       {% for j in i %}
       <option value={{ j }}>{{ j }}</option> 
       {% endfor %}
   {% endfor %}
   </select>
-    <input type="submit" value="Show">
+  <select name="Semester1" id="Semester1">
+    {% for i in data3 %}
+        {% for j in i %}
+        <option value={{ j }}> {{ j }}</option> 
+        {% endfor %}
+    {% endfor %}
+    </select>
+    <select name="Year1" id="Year1">
+    {% for i in data4 %}
+        {% for j in i %}
+        <option value={{ j }}>{{ j }}</option> 
+        {% endfor %}
+    {% endfor %}
+    </select>
+    <h1>From</h1>
+    <select name="Semester2" id="Semester2">
+      {% for i in data3 %}
+          {% for j in i %}
+          <option value={{ j }}> {{ j }}</option> 
+          {% endfor %}
+      {% endfor %}
+      </select>
+      <select name="Year2" id="Year2">
+      {% for i in data4 %}
+          {% for j in i %}
+          <option value={{ j }}>{{ j }}</option> 
+          {% endfor %}
+      {% endfor %}
+      </select>
+
+  <input type="submit" value="Show">
   </form>
-  <h1>Showing Results for {{sem_name}} {{year}} {{for}}</h1>
+  <h1>Showing Results for {{input_school_id}}</h1>
 
 <table>
     <tr>
-        <th>School_ID </th>
-        <th>Revenue</th>
+        <th>Year </th>
+        <th>Revenue </th>
       </tr>
-{% for i in data %}
+
+{% for i in data1 %}
 <tr>
     {% for j in i %}
         <td>{{ j }}</td>
     {% endfor %}
     </tr>
 {% endfor %}
-{% for i in data4 %}
+{% for i in data2 %}
 <tr>
     {% for j in i %}
-        <th>Total</th>
-
         <td>{{ j }}</td>
     {% endfor %}
 </tr>
 {% endfor %}
 </table>
+<div id="container" style="width: 40%;position:absolute;left:800px;top:150px;">
+  <canvas id="pie-chart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+
+  var config = {
+    type: 'bar',
+    data: {
+      datasets: [{
+        data:  [{% for value in chart_data %} {{ value }}, {% endfor %}],        
+        backgroundColor: [
+          '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3','#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+        ],
+        label: 'Revenue'
+      }],
+      labels: [{% for value2 in chart_labels %} '{{ value2 }}', {% endfor %}],    
+    },
+    options: {
+      responsive: true
+    }
+  };
+
+  window.onload = function() {
+    var ctx = document.getElementById('pie-chart').getContext('2d');
+    window.myPie = new Chart(ctx, config);
+  };
+
+</script>
 </body>
 </html>

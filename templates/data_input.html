@@ -38,12 +38,11 @@
 {%block content%} 
 {%endblock%}   
 <button type="button"><a href="/revenue">Revenue</a></button>
-<button type="button"><a href="/enrollment">Enrollment</a></button>
-<button type="button"><a href="/resources">Resources</a></button>
-<button type="button"><a href="/data_input">Get Enrollment</a></button>
-<button type="button"><a href="/course_infos">Course Infos</a></button>
-<button type="button"><a href="/classroom_req">Classroom req</a></button>
-
+    <button type="button"><a href="/data_input">Get Enrollment</a></button>
+    <button type="button"><a href="/resources">Resources</a></button>
+    <button type="button"><a href="/enrollment">Enrollment</a></button>
+    <button type="button"><a href="/classroom_req">Classroom req</a></button>
+    <button type="button"><a href="/course_infos">Course Infos</a></button>
 
 <form action="data_input" method="post">
 {% csrf_token %}
@@ -69,7 +68,7 @@
 <table>
     <tr>
         <th>School_ID </th>
-        <th>Enrollment Count</th>
+        <th>Section Count</th>
     </tr>
 {% for i in data1 %}
     <tr>
@@ -78,6 +77,63 @@
     {% endfor %}
     </tr>
 {% endfor %}
+{% for i in data_total %}
+    <tr>
+    {% for j in i %}
+        <td>{{ j }}</td>
+    {% endfor %}
+    </tr>
+    
+{% endfor %}
+</table>
+<div>
+  <form action="data_input_2" method="post">
+    {% csrf_token %}
+    <select name="Semester" id="Semester">
+      {% for i in data4 %}
+          {% for j in i %}
+          <option value={{ j }}> {{ j }}</option> 
+          {% endfor %}
+      {% endfor %}
+      </select>
+      <select name="Year" id="Year">
+      {% for i in data5 %}
+          {% for j in i %}
+          <option value={{ j }}>{{ j }}</option> 
+          {% endfor %}
+      {% endfor %}
+      </select>
+
+    <input type="submit" value="Show All">
+    </form>
+</div>
+<table>
+
+{% for i in data_list %} 
+  <tr>
+    <th>School_ID </th>
+    <th>Section Count (Enrolled {{forloop.counter}})</th>
+
+  </tr>
+    {% for j in i %}
+    
+      <tr>
+      {% for k in j %}
+          <th>{{ k }}</th>
+      {% endfor %}
+      </tr>
+    {% endfor %}
+  {% endfor %}
+{% for i in data_total %}
+  <tr>
+  {% for j in i %}
+      <td>{{ j }}</td>
+  {% endfor %}
+  </tr>
+  
+{% endfor %}
+</table>
+
 
 </body>
 </html>

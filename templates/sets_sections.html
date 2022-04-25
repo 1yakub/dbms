@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources</title>
+    <title>SETS Departments</title>
     <style>
         button {
             border: none;
@@ -20,7 +20,7 @@
         table {
           font-family: arial, sans-serif;
           border-collapse: collapse;
-          width: 60%;
+          width: 40%;
         }
         
         td, th {
@@ -32,60 +32,59 @@
         tr:nth-child(even) {
           background-color: #dddddd;
         }
-        #container{
-          right:500;
-          top:500;
-          left:600;
-          right:700;
-
-        }
         </style>
 </head>
 <body>
-  <button type="button"><a href="/revenue">Revenue</a></button>
-  <button type="button"><a href="/data_input">Get Enrollment</a></button>
-  <button type="button"><a href="/resources">Resources</a></button>
-  <button type="button"><a href="/enrollment">Enrollment</a></button>
-  <button type="button"><a href="/classroom_req">Classroom req</a></button>
-  <button type="button"><a href="/course_infos">Course Infos</a></button>
-<form action="resources" method="post">
+
+    <button type="button"><a href="/revenue">Revenue</a></button>
+    <button type="button"><a href="/enrollment">Enrollment</a></button>
+    <button type="button"><a href="/resources">Resources</a></button>
+    <button type="button"><a href="/data_input">Get Enrollment</a></button>
+    <button type="button"><a href="/sets_sections">SETS Sections</a></button>
+    <button type="button"><a href="/course_infos">Course Infos</a></button>
+    <button type="button"><a href="/classroom_req">Classroom req</a></button>
+
+<form action="sets_sections" method="post">
   {% csrf_token %}
-  <select name="Semester" id="Semester">
-  {% for i in data2 %}
+  <select name="Course_ID" id="Course_ID">
+  {% for i in data %}
       {% for j in i %}
       <option value={{ j }}> {{ j }}</option> 
       {% endfor %}
   {% endfor %}
   </select>
-  <select name="Year" id="Year">
-  {% for i in data3 %}
-      {% for j in i %}
-      <option value={{ j }}>{{ j }}</option> 
-      {% endfor %}
-  {% endfor %}
-  </select>
-    <input type="submit" value="Show">
+  <select name="Option" id="Option">
+    <option value="1-10">1-10</option> 
+    <option value="11-20">11-20</option> 
+    <option value="21-30">21-30</option> 
+    <option value="31-35">31-35</option> 
+    <option value="36-40">36-40</option> 
+    <option value="41-50">41-50</option> 
+    <option value="51-55">51-55</option> 
+    <option value="56-60">56-60</option> 
+    <option value="60+">60+</option> 
+
+</select>
+    <input type="submit" value="Show Data">
   </form>
-  <h1>Showing Results for {{sem_name}} {{year}} {{for}}</h1>
+<h1>Showing Results for {{sem_name}} {{year}} </h1>
 
 <table>
     <tr>
-        <th>School ID </th>
-        <th>Enrollment Count</th>
-        <th>Avg Enrollment</th>
-        <th>Avg Room Size</th>
-        <th>Difference</th>
-      </tr>
-{% for i in data %}
-<tr>
+        <th>Course_ID </th>
+        <th>Course Name</th>
+    </tr>
+{% for i in data3 %}
+    <tr>
     {% for j in i %}
         <td>{{ j }}</td>
     {% endfor %}
     </tr>
 {% endfor %}
-</table>
 
-<div id="container" style="width: 40%;">
+
+</table>
+<div id="container" style="width: 40%;position:absolute;left:700px;top:150px;">
   <canvas id="pie-chart"></canvas>
 </div>
 
@@ -98,8 +97,7 @@
       datasets: [{
         data:  [{% for value in chart_data %} {{ value }}, {% endfor %}],        
         backgroundColor: [
-          '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3',
-          '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3','#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3',
+          '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
         ],
         label: 'Enrollment Count'
       }],
