@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revenue</title>
     <style>
+      select {
+        border: none;
+        color: black;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: black;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+
+       }
         button {
             border: none;
             color: white;
@@ -100,7 +112,11 @@
     {% endfor %}
     </tr>
 {% endfor %}
-{% for i in data2 %}
+<tr>
+  <th>Year </th>
+  <th> % Revenue </th>
+</tr>
+{% for i in summary_data %}
 <tr>
     {% for j in i %}
         <td>{{ j }}</td>
@@ -110,6 +126,8 @@
 </table>
 <div id="container" style="width: 40%;position:absolute;left:800px;top:150px;">
   <canvas id="pie-chart"></canvas>
+  <canvas id="pie-chart1"></canvas>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
@@ -131,10 +149,30 @@
       responsive: true
     }
   };
+  var config1 = {
+    type: 'bar',
+    data: {
+      datasets: [{
+        data:  [{% for value in chart_data1 %} {{ value }}, {% endfor %}],        
+        backgroundColor: [
+          '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3','#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+        ],
+        label: 'Revenue'
+      }],
+      labels: [{% for value2 in chart_labels1 %} '{{ value2 }}', {% endfor %}],    
+    },
+    options: {
+      responsive: true
+    }
+  };
 
   window.onload = function() {
     var ctx = document.getElementById('pie-chart').getContext('2d');
+    var ctx1 = document.getElementById('pie-chart1').getContext('2d');
+
     window.myPie = new Chart(ctx, config);
+    window.myPie = new Chart(ctx1, config1);
+
   };
 
 </script>
