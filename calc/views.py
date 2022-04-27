@@ -1,8 +1,4 @@
-from cProfile import label
-from xml.dom.minidom import Document
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.db import connection
 import calc.ml_code as ml_code
 
@@ -116,6 +112,7 @@ def resources(request):
           with connection.cursor() as cursor_2:
             cursor_2.execute("select distinct SEMESTER_NAME from SECTION")
             row2 = cursor_2.fetchall()
+
           with connection.cursor() as cursor_3:
             cursor_3.execute("select distinct SM_YEAR from SECTION")
             row3 = cursor_3.fetchall()
